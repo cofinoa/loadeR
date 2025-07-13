@@ -1,0 +1,33 @@
+netcdf test_pr {
+dimensions:
+  time = 1 ;
+  rlat = 1 ;
+  rlon = 1 ;
+
+variables:
+  double time(time) ;
+    time:long_name = "Time variable" ;
+		time:units = "days since 1950-01-01 00:00:00" ;
+		time:_CoordinateAxisType = "Time" ;
+  double lat(rlat) ;
+    lat:standard_name = "latitude" ;
+		lat:long_name = "latitude" ;
+		lat:units = "degrees north" ;
+		lat:_CoordinateAxisType = "Lat" ;
+  double lon(rlon) ;
+    lon:standard_name = "longitude" ;
+		lon:long_name = "longitude" ;
+		lon:units = "degrees east" ;
+		lon:_CoordinateAxisType = "Lon" ;
+  float pr(time, rlon, rlat) ;
+    pr:standard_name = "precipitation_amount" ;
+		pr:long_name = "Total Precipitation (DM)" ;
+		pr:units = "m" ;
+		pr:missing_value = -9999.f ;
+
+data:
+  time = 0 ;
+  lat = 40.0 ;
+  lon = -3.5 ;
+  pr = 1.2 ;
+}

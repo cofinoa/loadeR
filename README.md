@@ -15,6 +15,26 @@ devtools::install_github(c("SantanderMetGroup/loadeR.java", "SantanderMetGroup/c
  
 **NOTE:** loadeR is enhanced by [loadeR.ECOMS](http://meteo.unican.es/udg-wiki/ecoms/RPackage) package which allows to remotely access harmonized data from several state-of-the-art seasonal forecasting databases stored at the ECOMS-UDG. 
 
+## Setting Up the Test Environment:
+
+1. Create a conda environment with R 3.6 and required packages:
+```bash
+conda create -n c4r-loader-tests -c conda-forge r-base=3.6 r-loader.java "r-climate4r.udg>=0.2.0" r-abind r-rcurl r-devtools r-covr libnetcdf
+```
+
+2. Activate the environment:
+```bash
+conda activate c4r-loader-tests
+```
+
+## Running the Tests:
+
+1. Once the environment is ready and loadeR is installed, you can run the package’s test suite. Assuming you are in the package’s root directory, run in R:
+```r
+devtools::test()
+```
+The test() function in the devtools package is used to run all tests in a package without requiring the package to be installed. It acts as a shortcut for testthat::test_dir(), allowing you to quickly execute all tests. Additionally, it reloads your code with load_all() before running the tests, ensuring that the latest changes are included.
+
 ---
 Reference and further information: 
 

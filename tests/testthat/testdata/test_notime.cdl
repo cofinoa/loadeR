@@ -1,0 +1,27 @@
+netcdf test_notime {
+dimensions:
+    rlat = 1 ;
+    rlon = 1 ;
+
+variables:
+	double lat(rlat) ;
+		lat:standard_name = "latitude" ;
+		lat:long_name = "latitude" ;
+		lat:units = "degrees north" ;
+		lat:_CoordinateAxisType = "Lat" ;
+	double lon(rlon) ;
+		lon:standard_name = "longitude" ;
+		lon:long_name = "longitude" ;
+		lon:units = "degrees east" ;
+		lon:_CoordinateAxisType = "Lon" ;
+	float tas(rlon, rlat) ;
+		tas:standard_name = "temperature" ;
+		tas:long_name = "Temperature" ;
+		tas:units = "K" ;
+		tas:missing_value = -9999.f ;
+
+data:
+    lat = 40.0 ;
+    lon = -3.5 ;
+    tas = 290 ;
+}

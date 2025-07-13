@@ -16,7 +16,7 @@
 #' @keywords internal
 #' @export
 
-deaccum <- function(x, t.ranges, dff) {
+deaccum <- function(x, t.ranges, dff = TRUE) {
       if (isTRUE(dff)) {
             sapply(1:(length(t.ranges) - 1), function(i) {
                   c(x[t.ranges[i] + 1], diff(x[(t.ranges[i] + 1) : t.ranges[i + 1]]))

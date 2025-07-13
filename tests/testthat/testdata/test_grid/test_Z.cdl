@@ -1,0 +1,33 @@
+netcdf test_Z {
+dimensions:
+    time = 2 ;
+    rlat = 1 ;
+    rlon = 1 ;
+
+variables:
+	double time(time) ;
+		time:long_name = "Time variable" ;
+		time:units = "days since 1950-01-01 00:00:00" ;
+		time:_CoordinateAxisType = "Time" ;
+	double lat(rlat) ;
+		lat:standard_name = "latitude" ;
+		lat:long_name = "latitude" ;
+		lat:units = "degrees north" ;
+		lat:_CoordinateAxisType = "Lat" ;
+	double lon(rlon) ;
+		lon:standard_name = "longitude" ;
+		lon:long_name = "longitude" ;
+		lon:units = "degrees east" ;
+		lon:_CoordinateAxisType = "Lon" ;
+	float Z(time, rlon, rlat) ;
+		Z:standard_name = "geopotential" ;
+		Z:long_name = "Geopotential" ;
+		Z:units = "m**2 s**-2" ;
+		Z:missing_value = -9999.f ;
+
+data:
+    time = 0, 6 ;
+    lat = 40.0 ;
+    lon = -3.5 ;
+    Z = 5800, 5820 ;
+}

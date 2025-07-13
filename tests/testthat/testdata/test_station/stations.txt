@@ -1,0 +1,3 @@
+station_id, name, longitude, latitude, altitude, source
+000012, GRAZ, 15.450000, 47.083100, 366, ECA&D
+000013, INNSBRUCK, 11.400000, 47.266700, 577, ECA&D

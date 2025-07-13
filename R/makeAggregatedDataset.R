@@ -110,7 +110,8 @@ makeAggregatedDataset <- function(source.dir, ncml.file, file.ext = "nc", aggr.d
       ind <- which(!hasAggrDim)
       if (length(ind) > 0) {
             for (i in 1:length(ind)) {
-                  varfile <- grep(vars[ind[i]], lf, value = TRUE)
+                  #varfile <- grep(vars[ind[i]], lf, value = TRUE)
+                  varfile <- lf[grep(vars[ind[i]], basename(lf))]
                   for (j in 1:length(varfile)) {
                         cat(c("\n","\t","<netcdf location=", "\"", varfile[j]), "\"/>", sep = "", file = z)
                   }
@@ -144,7 +145,8 @@ makeAggregatedDataset <- function(source.dir, ncml.file, file.ext = "nc", aggr.d
             }
             if ( timeUnitsChange ) { strTimeUnitsChange="timeUnitsChange=\"true\"" } else { strTimeUnitsChange="" }
             for (i in 1:length(ind)) {
-                  varfile <- grep(vars[ind[i]], lf, value = TRUE)
+                  #varfile <- grep(vars[ind[i]], lf, value = TRUE)
+                  varfile <- lf[grep(vars[ind[i]], basename(lf))]
                   cat(c("\n","\t","\t","<netcdf>"), sep = "", file = z)
                   cat(c("\n","\t","\t","<aggregation dimName=\"", aggr.dim, "\" ", "type=\"joinExisting\" ",strTimeUnitsChange,">"), sep = "", file = z)
                   cat(c("\n","\t","\t","<variableAgg name=\"", vars[ind[i]], "\"/>"), sep = "", file = z)

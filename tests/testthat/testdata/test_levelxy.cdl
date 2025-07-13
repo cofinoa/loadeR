@@ -1,0 +1,51 @@
+netcdf test_levelxy {
+dimensions:
+    time = 4; 
+    lev = 2;
+    y = 2;
+    x = 2;
+
+variables:
+    double time(time);
+        time:units = "days since 1981-06-01 00:00:00";
+        time:long_name = "forecast time";
+        time:_CoordinateAxisType = "Time";
+
+    double lev(lev);
+        lev:units = "hPa";
+        lev:long_name = "pressure level";
+        lev:_CoordinateAxisType = "GeoZ";
+        lev:positive = "down";
+
+    float lat(x);
+        lat:units = "degrees_north";
+        lat:long_name = "latitude";
+        lat:_CoordinateAxisType = "Lat";
+
+    float lon(y);
+        lon:units = "degrees_east";
+        lon:long_name = "longitude";
+        lon:_CoordinateAxisType = "Lon";
+
+    double tas(time, lev, y, x);
+        tas:long_name = "air temperature";
+        tas:standard_name = "air_temperature";
+        tas:units = "K";
+        tas:missing_value = -9999.0;
+
+data:
+ time = 0, 1, 30, 31; // 4 time steps: two in June (0, 1) and two in July (30, 31)
+ lev = 1000, 850 ;
+ lat = 40.0, 41.0 ;
+ lon = -3.5, -3.4 ;
+ tas =
+  280, 281, 282, 283,
+  284, 285, 286, 287,
+  280, 281, 282, 283,
+  284, 285, 286, 287,
+  
+  280, 281, 282, 283,
+  284, 285, 286, 287,
+  280, 281, 282, 283,
+  284, 285, 286, 287 ;
+}  
