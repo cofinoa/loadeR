@@ -15,25 +15,52 @@ devtools::install_github(c("SantanderMetGroup/loadeR.java", "SantanderMetGroup/c
  
 **NOTE:** loadeR is enhanced by [loadeR.ECOMS](http://meteo.unican.es/udg-wiki/ecoms/RPackage) package which allows to remotely access harmonized data from several state-of-the-art seasonal forecasting databases stored at the ECOMS-UDG. 
 
-## Setting Up the Test Environment:
+# Testing loadeR
 
-1. Create a conda environment with R 3.6 and required packages:
+### Setting Up the Test Environment:
+
+1. Create a Conda environment with R 3.6 and the packages that loadeR depends on:
 ```bash
-conda create -n c4r-loader-tests -c conda-forge r-base=3.6 r-loader.java "r-climate4r.udg>=0.2.0" r-abind r-rcurl r-devtools r-covr libnetcdf
+conda create -n c4r-loader-tests -c conda-forge r-base=3.6 r-loader.java "r-climate4r.udg>=0.2.0" r-abind r-rcurl 
 ```
 
-2. Activate the environment:
+2. Install the packages needed for testing:
+ ```bash
+conda install -c conda-forge r-devtools r-covr libnetcdf
+```
+The r-devtools package is used to run the test suite, without requiring the package to be formally installed. The r-covr package allows you to compute test coverage. Finally, libnetcdf is needed to generate temporary .nc files from .cdl definitions included in the package. These NetCDF files are created and deleted dynamically during testing, and serve as input data for specific test cases. If you use R versions 4.3 or 4.4 on Windows, you may encounter compatibility issues with the r-devtools package. It is recommended to use R 3.6 for full compatibility. 
+
+### Running the Tests:
+
+1. Before running any tests, you need to clone the loadeR package repository locally:
+```bash
+git clone https://github.com/SantanderMetGroup/loadeR.git
+cd loadeR
+```
+This puts you in the root directory of the package. 
+
+2. Make sure to activate the environment you created earlier:
 ```bash
 conda activate c4r-loader-tests
 ```
 
-## Running the Tests:
-
-1. Once the environment is ready and loadeR is installed, you can run the package’s test suite. Assuming you are in the package’s root directory, run in R:
-```r
-devtools::test()
+3. Once you're in the root directory of the cloned package and the environment is active, run the following command to execute the test suite:
+```bash
+Rscript -e "devtools::test()"
 ```
-The test() function in the devtools package is used to run all tests in a package without requiring the package to be installed. It acts as a shortcut for testthat::test_dir(), allowing you to quickly execute all tests. Additionally, it reloads your code with load_all() before running the tests, ensuring that the latest changes are included.
+The test() function from the devtools package runs all tests located in the tests/testthat/ directory of the package without requiring the package to be installed. It is a shortcut for testthat::test_dir(), and automatically reloads the package code using devtools::load_all() before running the tests. This means that any changes made to the functions in the package are detected immediately when the tests are run.
+
+4. Once you're in the root directory of the cloned package and the environment is active, run the following command to check the test coverage:
+```bash
+Rscript -e "covr::package_coverage()"
+```
+This command returns the coverage percentage for each R file in the package, indicating how much of the code is exercised by the test suite.
+
+`Note:` you can also develop and use the package outside the test suite. To do so, start an R session from the root directory of the package (with the environment activated), and run:
+```R
+devtools::load_all()
+```
+This will simulate loading the package from the local source directory (where you're located) and make all its functions available in the R session. Any change you make to the R scripts will be picked up the next time you run devtools::load_all(). After that, you can call the functions normally from your R session, and they will reflect your latest changes without requiring installation.
 
 ---
 Reference and further information: 

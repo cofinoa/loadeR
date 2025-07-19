@@ -4,10 +4,11 @@
 
 test_that("loadSeasonalForecast Loads a user-defined spatio-temporal slice from a seasonal forecast", {
   skip_if(Sys.which("ncgen") == "", "Skipping test 'loadSeasonalForecast': 'ncgen' is not available on system")
+ 
+  temp_dir <- getOption("loadeR.tempdir")
+  nc_path <- file.path(temp_dir, "test_runtime.nc") 
 
-  nc_path <- testthat::test_path("testdata", "test_runtime.nc") 
-
-  tmp <- file.path(testthat::test_path("testdata"), "temp.dic")
+  tmp <- tempfile(fileext = ".dic")
   writeLines(
     "identifier,short_name,time_step,lower_time_bound,upper_time_bound,aggr_fun,offset,scale,deaccum
 tas,tas,24h,0,24,mean,-273.15,1,0",

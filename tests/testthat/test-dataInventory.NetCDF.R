@@ -4,8 +4,9 @@
 
 test_that("dataInventory.NetCDF returns a list with summary information about the variables stored in a gridded dataset", {
   skip_if(Sys.which("ncgen") == "", "Skipping test 'dataInventory.NetCDF': 'ncgen' is not available on system")
-
-  nc_path <- testthat::test_path("testdata", "test_multidim.nc") 
+  
+  temp_dir <- getOption("loadeR.tempdir")
+  nc_path <- file.path(temp_dir, "test_multidim.nc")
   out <- dataInventory.NetCDF(nc_path)
   
   expect_type(out, "list") # The result should be a list

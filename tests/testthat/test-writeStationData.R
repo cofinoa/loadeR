@@ -13,8 +13,9 @@ out <- loadStationData(
   years = 1961:1962)
 
 test_that("writeStationData writes a station object to value format", {
-  # Temporary output file
-  output_file <- file.path(testthat::test_path("testdata"), "temp.csv")
+  # Temporary output file 
+  temp_dir <- getOption("loadeR.tempdir")
+  output_file <- file.path(temp_dir, "temp.csv") 
   suppressWarnings(writeStationData(out, path = output_file))
   written_data <- read.csv(output_file, check.names = FALSE)
 
@@ -36,8 +37,9 @@ test_that("writeStationData writes a station object with NA to value format", {
   out_with_na <- out
   out_with_na$Data[1, 1] <- NA
 
-  # Temporary output file
-  output_file <- file.path(testthat::test_path("testdata"), "temp.csv")
+  # Temporary output file 
+  temp_dir <- getOption("loadeR.tempdir")
+  output_file <- file.path(temp_dir, "temp.csv") 
   suppressWarnings(writeStationData(out_with_na, path = output_file))
   written_data <- read.csv(output_file, stringsAsFactors = FALSE, check.names = FALSE)
 

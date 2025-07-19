@@ -4,8 +4,9 @@
 
 test_that("revArrayLatDim reverses latitude coordinates ordering", {
   skip_if(Sys.which("ncgen") == "", "Skipping test 'revArrayLatDim': 'ncgen' is not available on system")
-
-  nc_path <- testthat::test_path("testdata", "test_levelxy.nc") 
+ 
+  temp_dir <- getOption("loadeR.tempdir")
+  nc_path <- file.path(temp_dir, "test_levelxy.nc") 
   gds <- openDataset(nc_path)
 
   var <- "tas" # Select variable

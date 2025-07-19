@@ -4,8 +4,9 @@
 
 test_that("openDataset opens a local or remote grid dataset", {
   skip_if(Sys.which("ncgen") == "", "Skipping test 'openDataset': 'ncgen' is not available on system")
-
-  nc_path <- testthat::test_path("testdata", "test_multidim.nc") 
+ 
+  temp_dir <- getOption("loadeR.tempdir")
+  nc_path <- file.path(temp_dir, "test_multidim.nc") 
   gds <- openDataset(nc_path)
 
   expect_false(is.null(gds)) 

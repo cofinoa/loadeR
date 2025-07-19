@@ -4,9 +4,10 @@
 
 test_that("dictionaryTransform performs variable transformation according to dictionary specifications", {
   skip_if(Sys.which("ncgen") == "", "Skipping test 'dictionaryTransform': 'ncgen' is not available on system")
-
-  nc_path <- testthat::test_path("testdata", "test_levelxy_subdaily.nc") 
-  dic_path <- testthat::test_path("testdata", "test.dic") 
+ 
+  temp_dir <- getOption("loadeR.tempdir")
+  nc_path <- file.path(temp_dir, "test_levelxy_subdaily.nc") 
+  dic_path <- file.path(temp_dir, "test.dic")
 
   gds <- openDataset(nc_path)
   grid <- gds$findGridByShortName("tas")
@@ -38,7 +39,7 @@ test_that("dictionaryTransform performs variable transformation according to dic
   expect_equal(transformed, mdArray - 273.15)
 
   # Deaccumulation 
-  tmp_dic <- file.path(testthat::test_path("testdata"), "temp.dic")
+  tmp_dic <- tempfile(fileext = ".dic")
   writeLines(
     "identifier,short_name,time_step,lower_time_bound,upper_time_bound,aggr_fun,offset,scale,deaccum
 tas,T,6h,0,6,mean,-273.15,1,1",tmp_dic)

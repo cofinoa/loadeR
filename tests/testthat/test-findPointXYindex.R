@@ -4,8 +4,9 @@
 
 test_that("findPointXYindex finds the XY index position", {
   skip_if(Sys.which("ncgen") == "", "Skipping test 'findPointXYindex': 'ncgen' is not available on system")
-
-  nc_path <- testthat::test_path("testdata", "test_levelxy.nc") 
+  
+  temp_dir <- getOption("loadeR.tempdir")
+  nc_path <- file.path(temp_dir, "test_levelxy.nc")
   gds <- openDataset(nc_path)
 
   var <- "tas"

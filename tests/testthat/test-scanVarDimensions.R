@@ -4,8 +4,9 @@
 
 test_that("scanVarDimensions retrieves dimension information for a gridded variable", {
   skip_if(Sys.which("ncgen") == "", "Skipping test 'scanVarDimensions': 'ncgen' is not available on system")
-
-  nc_path <- testthat::test_path("testdata", "test_multidim.nc") 
+ 
+  temp_dir <- getOption("loadeR.tempdir")
+  nc_path <- file.path(temp_dir, "test_multidim.nc") 
   gds <- openDataset(nc_path)
 
   var <- "tas" # Select variable

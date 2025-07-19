@@ -4,10 +4,11 @@
 
 test_that("loadCircularGridData loads a grid from a circular gridded dataset", {
   skip_if(Sys.which("ncgen") == "", "Skipping test 'loadCircularGridData': 'ncgen' is not available on system")
+ 
+  temp_dir <- getOption("loadeR.tempdir")
+  nc_path <- file.path(temp_dir, "test_multidimrlonrlat.nc")
 
-  nc_path <- testthat::test_path("testdata", "test_multidimrlonrlat.nc") 
-
-  tmp <- file.path(testthat::test_path("testdata"), "temp.dic")
+  tmp <- tempfile(fileext = ".dic")
   writeLines(
     "identifier,short_name,time_step,lower_time_bound,upper_time_bound,aggr_fun,offset,scale,deaccum
 tas,tas,24h,0,24,mean,-273.15,1,0",

@@ -4,8 +4,9 @@
 
 test_that("getRunTimeDomain.decadal computes correct runtime parameters", {
   skip_if(Sys.which("ncgen") == "", "Skipping test 'getRunTimeDomain.decadal': 'ncgen' is not available on system")
-
-  nc_path <- testthat::test_path("testdata", "test_runtime.nc") 
+ 
+  temp_dir <- getOption("loadeR.tempdir")
+  nc_path <- file.path(temp_dir, "test_runtime.nc")
   gds <- openDataset(nc_path)
   grid <- gds$findGridByShortName("tas")
 

@@ -5,8 +5,9 @@
 test_that("getVerticalLevelPars opens the grid and checks all possible level values", {
   skip_if(Sys.which("ncgen") == "", "Skipping test 'getVerticalLevelPars': 'ncgen' is not available on system")
 
-  # Level specified and no vertical levels available
-  nc_path <- testthat::test_path("testdata", "test_rcmgrid.nc") 
+  # Level specified and no vertical levels available 
+  temp_dir <- getOption("loadeR.tempdir")
+  nc_path <- file.path(temp_dir, "test_rcmgrid.nc")
   gds <- openDataset(nc_path)
   
   var <- "tas" # Select variable 
@@ -17,8 +18,8 @@ test_that("getVerticalLevelPars opens the grid and checks all possible level val
   expect_true(identical(out$zRange, rJava::.jnull())) # zRange should be NULL (no vertical levels)
   gds$close()
 
-  # Level specified and vertical levels available
-  nc_path <- testthat::test_path("testdata", "test_level.nc") 
+  # Level specified and vertical levels available 
+  nc_path <- file.path(temp_dir, "test_level.nc")
   gds <- openDataset(nc_path)
   
   var <- "tas" # Select variable 

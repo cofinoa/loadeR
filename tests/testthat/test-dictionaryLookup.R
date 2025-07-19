@@ -3,8 +3,9 @@
 # ============================
 
 test_that("dictionaryLookup searches variable string in the dictionary", {
-  # Use real dictionary for standard case
-  dic_path <- testthat::test_path("testdata", "test.dic") 
+  # Use real dictionary for standard case 
+  temp_dir <- getOption("loadeR.tempdir")
+  dic_path <- file.path(temp_dir, "test.dic")
   out <- dictionaryLookup(dic_path, var = "tas", time = "DD") # Dictionary file
 
   expect_s3_class(out, "data.frame") # The result should be a data frame
@@ -31,7 +32,7 @@ test_that("dictionaryLookup searches variable string in the dictionary", {
                "Dictionary not found")
 
   # Duplicate rows simulation: 24h and 6h for same variable
-  tmp <- file.path(testthat::test_path("testdata"), "temp.dic")
+  tmp <- tempfile(fileext = ".dic")
   writeLines(
     "identifier,short_name,time_step,lower_time_bound,upper_time_bound,aggr_fun,offset,scale,deaccum
 tas,2T,24h,0,24,mean,-273.15,1,0
@@ -50,7 +51,7 @@ tas,2T,6h,0,6,mean,-273.15,1,0",
   expect_equal(out_06$time_step, "6h")
 
   # Time = "DD" with only 12h data → error
-  tmp12 <- file.path(testthat::test_path("testdata"), "temp12.dic")
+  tmp12 <- tempfile(fileext = ".dic")
   writeLines(
     "identifier,short_name,time_step,lower_time_bound,upper_time_bound,aggr_fun,offset,scale,deaccum
 temp12,T12,12h,0,12,mean,0,1,0",
@@ -64,7 +65,7 @@ temp12,T12,12h,0,12,mean,0,1,0",
                "Requested 'time' value")
 
   # Time = "06" with 24h data → error
-  tmp24 <- file.path(testthat::test_path("testdata"), "temp24.dic")
+  tmp24 <- tempfile(fileext = ".dic")
   writeLines(
     "identifier,short_name,time_step,lower_time_bound,upper_time_bound,aggr_fun,offset,scale,deaccum
 pr24,PR,24h,0,24,sum,0,1,0",
@@ -83,8 +84,9 @@ pr24,PR,24h,0,24,sum,0,1,0",
 
 test_that("check.dictionary checks for dictionary options", {
   skip_if(Sys.which("ncgen") == "", "Skipping test 'check.dictionary': 'ncgen' is not available on system")
-
-  nc_path <- testthat::test_path("testdata", "test_grid", "test_grid.ncml") 
+ 
+  temp_dir <- getOption("loadeR.tempdir")
+  nc_path <- file.path(temp_dir, "test_grid", "test_grid.ncml")
   out <- check.dictionary(dataset = nc_path, var = "T", dictionary = TRUE, time = "DD")
 
   expect_type(out, "list") # The result should be a list

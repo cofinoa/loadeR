@@ -4,8 +4,9 @@
 
 test_that("getTimeDomain performs the selection of time slices based on season and year specification", {
   skip_if(Sys.which("ncgen") == "", "Skipping test 'getTimeDomain': 'ncgen' is not available on system")
-
-  nc_path <- testthat::test_path("testdata", "test_grid", "test_T.nc") 
+ 
+  temp_dir <- getOption("loadeR.tempdir")
+  nc_path <- file.path(temp_dir, "test_grid", "test_T.nc")
   gds <- openDataset(nc_path)
 
   var <- "T" # Variable name
@@ -83,8 +84,8 @@ test_that("getTimeDomain performs the selection of time slices based on season a
 
   gds$close()
 
-  # Sub-daily case with no daily aggregation function
-  nc_path <- testthat::test_path("testdata", "test_grid", "test_T_subdaily.nc") 
+  # Sub-daily case with no daily aggregation function 
+  nc_path <- file.path(temp_dir, "test_grid", "test_T_subdaily.nc")
   gds <- openDataset(nc_path)
   grid <- gds$findGridByShortName("T")
 
@@ -116,7 +117,7 @@ test_that("getTimeDomain performs the selection of time slices based on season a
     "A daily aggregation function must be indicated prior to monthly aggregation")
 
   # Sub-daily case with condition and threshold with deaccumulation 
-  tmp_dic <- file.path(testthat::test_path("testdata"), "temp.dic")
+  tmp_dic <- tempfile(fileext = ".dic")
   writeLines(
     "identifier,short_name,time_step,lower_time_bound,upper_time_bound,aggr_fun,offset,scale,deaccum
 tas,T,6h,0,6,mean,-273.15,1,1",tmp_dic)
@@ -140,8 +141,8 @@ tas,T,6h,0,6,mean,-273.15,1,1",tmp_dic)
   expect_identical(out$condition, "<=")
   gds$close()
 
-  # No time axis
-  nc_path <- testthat::test_path("testdata", "test_notime.nc") 
+  # No time axis 
+  nc_path <- file.path(temp_dir, "test_notime.nc")
   gds <- openDataset(nc_path)
 
   var <- "tas" # Variable name

@@ -4,9 +4,10 @@
 
 test_that("dictionaryTransformForecast performs variable transformation according to dictionary specifications", {
   skip_if(Sys.which("ncgen") == "", "Skipping test 'dictionaryTransformForecast': 'ncgen' is not available on system")
-
-  nc_path <- testthat::test_path("testdata", "test_levelxy_subdaily.nc") 
-  dic_path <- testthat::test_path("testdata", "test.dic") 
+ 
+  temp_dir <- getOption("loadeR.tempdir")
+  nc_path <- file.path(temp_dir, "test_levelxy_subdaily.nc") 
+  dic_path <- file.path(temp_dir, "test.dic")
 
   gds <- openDataset(nc_path)
   grid <- gds$findGridByShortName("tas")

@@ -53,8 +53,9 @@ if (Sys.which("ncgen") != "") {
       )
     )
 
-    # Grid (no station id given + lon limit)
-    grid_path <- testthat::test_path("testdata", "test_timestation.ncml") 
+    # Grid (no station id given + lon limit) 
+    temp_dir <- getOption("loadeR.tempdir")
+    grid_path <- file.path(temp_dir, "test_timestation.ncml") 
 
     out_grid_lon <- loadStationData(
       dataset = grid_path,

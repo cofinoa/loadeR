@@ -4,8 +4,9 @@
 
 test_that("getLatLonDomain determines the geo-location parameters of an arbitrary user selection", {
   skip_if(Sys.which("ncgen") == "", "Skipping test 'getLatLonDomain': 'ncgen' is not available on system")
-
-  nc_path <- testthat::test_path("testdata", "test_multidim.nc") 
+ 
+  temp_dir <- getOption("loadeR.tempdir")
+  nc_path <- file.path(temp_dir, "test_multidim.nc")
   gds <- openDataset(nc_path)
 
   var <- "tas" # Select variable 
@@ -43,16 +44,16 @@ test_that("getLatLonDomain determines the geo-location parameters of an arbitrar
                 "Invalid geographical coordinates")
   gds$close()
 
-  # Reverse latitude selection
-  nc_path <- testthat::test_path("testdata", "test_reverselat.nc") 
+  # Reverse latitude selection 
+  nc_path <- file.path(temp_dir, "test_reverselat.nc")
   gds <- openDataset(nc_path)
   grid <- gds$findGridByShortName("tas")
   out <- getLatLonDomain(grid, lonLim = c(-3.6, -3.4), latLim = c(0.0, 2.0))
   expect_true(out$revLat)
   gds$close()
 
-  # Dateline crossing 
-  nc_path <- testthat::test_path("testdata", "test_crossdateline.nc") 
+  # Dateline crossing  
+  nc_path <- file.path(temp_dir, "test_crossdateline.nc")
   gds <- openDataset(nc_path)
   grid <- gds$findGridByShortName("tas")
   out <- getLatLonDomain(grid, lonLim = c(175, -175), latLim = c(-10, 10))
@@ -65,8 +66,8 @@ test_that("getLatLonDomain determines the geo-location parameters of an arbitrar
   expect_true(all(sapply(out$llbbox, function(b) is.null(b) || inherits(b, "jobjRef"))))
   gds$close()
 
-  # No resolution
-  nc_path <- testthat::test_path("testdata", "test_notime.nc") 
+  # No resolution 
+  nc_path <- file.path(temp_dir, "test_notime.nc")
   gds <- openDataset(nc_path)
   grid <- gds$findGridByShortName("tas")
   out <- getLatLonDomain(grid, lonLim = -3.5, latLim = 40.0)
@@ -81,8 +82,9 @@ test_that("getLatLonDomain determines the geo-location parameters of an arbitrar
 
 test_that("adjustRCMgrid performs operations to adequately handle 2D XY axis (typically from RCMs))", {
   skip_if(Sys.which("ncgen") == "", "Skipping test 'adjustRCMgrid': 'ncgen' is not available on system")
-
-  nc_path <- testthat::test_path("testdata", "test_rcmgrid.nc") 
+ 
+  temp_dir <- getOption("loadeR.tempdir")
+  nc_path <- file.path(temp_dir, "test_rcmgrid.nc")
   gds <- openDataset(nc_path)
 
   var <- "tas"

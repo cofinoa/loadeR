@@ -4,9 +4,10 @@
 
 test_that("makeAggregatedDataset handles joinExisting and union cases correctly", {
   skip_if(Sys.which("ncgen") == "", "Skipping test 'makeAggregatedDataset': 'ncgen' is not available on system")
-
-  source.dir <- testthat::test_path("testdata", "test_grid") 
-  output_ncml <- file.path(testthat::test_path("testdata"), "temp.ncml") # Temp NcML output file
+ 
+  temp_dir <- getOption("loadeR.tempdir")
+  source.dir <- file.path(temp_dir, "test_grid")  
+  output_ncml <- file.path(temp_dir, "temp.ncml") 
 
   makeAggregatedDataset(
     source.dir = source.dir,
@@ -36,8 +37,8 @@ test_that("makeAggregatedDataset handles joinExisting and union cases correctly"
 
   unlink(output_ncml)
 
-  # Case with only one file per variable
-  output_ncml <- file.path(testthat::test_path("testdata"), "temp.ncml") # Temp NcML output file
+  # Case with only one file per variable 
+  output_ncml <- file.path(temp_dir, "temp.ncml") 
 
   makeAggregatedDataset(
     source.dir = source.dir,

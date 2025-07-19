@@ -5,8 +5,9 @@
 test_that("makeSubset reads an arbitrary data slice", {
   skip_if(Sys.which("ncgen") == "", "Skipping test 'makeSubset': 'ncgen' is not available on system")
 
-  # Fixed latitude and longitude limits with monthly aggregation
-  nc_path <- testthat::test_path("testdata", "test_levelxy.nc") 
+  # Fixed latitude and longitude limits with monthly aggregation 
+  temp_dir <- getOption("loadeR.tempdir")
+  nc_path <- file.path(temp_dir, "test_levelxy.nc") 
   gds <- openDataset(nc_path)
   grid <- gds$findGridByShortName("tas")
 
@@ -39,8 +40,8 @@ test_that("makeSubset reads an arbitrary data slice", {
   expect_true(all(c("timePars", "mdArray") %in% names(out))) # The list should have specific names
   gds$close()
 
-  # Fixed latitude and longitude limits with daily aggregation
-  nc_path <- testthat::test_path("testdata", "test_levelxy_subdaily.nc") 
+  # Fixed latitude and longitude limits with daily aggregation 
+  nc_path <- file.path(temp_dir, "test_levelxy_subdaily.nc") 
   gds <- openDataset(nc_path)
   grid <- gds$findGridByShortName("tas")
 
@@ -68,8 +69,8 @@ test_that("makeSubset reads an arbitrary data slice", {
   expect_type(out, "list") 
   gds$close()
 
-  # Fixed latitude limit 
-  nc_path <- testthat::test_path("testdata", "test_level.nc") 
+  # Fixed latitude limit  
+  nc_path <- file.path(temp_dir, "test_level.nc") 
   gds <- openDataset(nc_path)
   grid <- gds$findGridByShortName("tas")
 

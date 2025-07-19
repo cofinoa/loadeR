@@ -33,7 +33,8 @@ test_that("dataInventory.ASCII returns data inventory from a station dataset in 
 test_that("dataInventory.NetCDF.ts returns a list with summary information about the variables stored in a time series dataset", {
   skip_if(Sys.which("ncgen") == "", "Skipping test 'dataInventory.NetCDF.ts': 'ncgen' is not available on system")
 
-  nc_path <- testthat::test_path("testdata", "test_timestationlatlon.nc") 
+  temp_dir <- getOption("loadeR.tempdir")
+  nc_path <- file.path(temp_dir, "test_timestationlatlon.nc")
   out <- dataInventory.NetCDF.ts(nc_path)
 
   expect_type(out, "list") # The result should be a list
@@ -56,13 +57,14 @@ test_that("dataInventory returns expected structure for station dataset", {
 })
 test_that("dataInventory returns expected structure for gridded dataset", {
   skip_if(Sys.which("ncgen") == "", "Skipping test 'dataInventory': 'ncgen' is not available on system")
-
-  nc_path <- testthat::test_path("testdata", "test_grid", "test_grid.ncml") 
+ 
+  temp_dir <- getOption("loadeR.tempdir")
+  nc_path <- file.path(temp_dir, "test_grid", "test_grid.ncml")
   out <- dataInventory(nc_path, return.stats = FALSE)
   out2 <- dataInventory.NetCDF(nc_path)
   expect_equal(out, out2)
-
-  nc_path <- testthat::test_path("testdata", "test_timestationlatlon.ncml") 
+ 
+  nc_path <- file.path(temp_dir, "test_timestationlatlon.ncml")
   out <- dataInventory(nc_path, return.stats = FALSE)
   out2 <- dataInventory.NetCDF.ts(nc_path)
   expect_equal(out, out2)

@@ -4,8 +4,9 @@
 
 test_that("loadGridData loads a grid from a gridded dataset", {
   skip_if(Sys.which("ncgen") == "", "Skipping test 'loadGridData': 'ncgen' is not available on system")
-
-  nc_path <- testthat::test_path("testdata", "test_rcmgrid.nc") 
+ 
+  temp_dir <- getOption("loadeR.tempdir")
+  nc_path <- file.path(temp_dir, "test_rcmgrid.nc") 
 
   out <- loadGridData(
     dataset = nc_path,
@@ -23,8 +24,8 @@ test_that("loadGridData loads a grid from a gridded dataset", {
   expect_type(out$xyCoords, "list") # xyCoords should be a list
   expect_true(all(c("x","y") %in% names(out$xyCoords))) # xyCoords should have specific names 
   expect_true(is.array(out$Data)) # Data should be an array 
-
-  nc_path <- testthat::test_path("testdata", "test_grid", "test_T.nc") 
+ 
+  nc_path <- file.path(temp_dir, "test_grid", "test_T.nc") 
   
   out <- loadGridData(
     dataset = nc_path,
@@ -35,8 +36,8 @@ test_that("loadGridData loads a grid from a gridded dataset", {
   )
   expect_type(out, "list")
 
-  # Variable not found 
-  nc_path <- testthat::test_path("testdata", "test_levelxy_subdaily.nc") 
+  # Variable not found  
+  nc_path <- file.path(temp_dir, "test_levelxy_subdaily.nc") 
 
   expect_error(loadGridData(
     dataset = nc_path,
@@ -110,8 +111,8 @@ test_that("loadGridData loads a grid from a gridded dataset", {
     season = 13,
     years = 1981:1981),"Invalid season definition")
   
-  # Ensemble axis
-  nc_path <- testthat::test_path("testdata", "test_multidim.nc") 
+  # Ensemble axis 
+  nc_path <- file.path(temp_dir, "test_multidim.nc") 
 
   out <- loadGridData(
     dataset = nc_path,
@@ -124,8 +125,8 @@ test_that("loadGridData loads a grid from a gridded dataset", {
   expect_type(out, "list")
   expect_true("Members" %in% names(out))  
 
-  # Sorting longitudes
-  nc_path <- testthat::test_path("testdata", "test_levelyx_subdaily.nc") 
+  # Sorting longitudes 
+  nc_path <- file.path(temp_dir, "test_levelyx_subdaily.nc") 
 
   out <- loadGridData(
     dataset = nc_path,
@@ -143,8 +144,9 @@ test_that("loadGridData loads a grid from a gridded dataset", {
 test_that("loadGridDataset loads a subset from a gridded data", {
   skip_if(Sys.which("ncgen") == "", "Skipping test 'loadGridDataset': 'ncgen' is not available on system")
 
-  # No ensemble axis, members = NULL
-  nc_path <- testthat::test_path("testdata", "test_levelyx_subdaily.nc") 
+  # No ensemble axis, members = NULL 
+  temp_dir <- getOption("loadeR.tempdir")
+  nc_path <- file.path(temp_dir, "test_levelyx_subdaily.nc") 
   gds <- openDataset(nc_path)
   grid <- gds$findGridByShortName("tas")
   latLon <- getLatLonDomain(grid, lonLim = c(-10, 5), latLim = c(35, 45))
@@ -160,8 +162,8 @@ test_that("loadGridDataset loads a subset from a gridded data", {
     expect_null(out$Members)}, "NOTE: The grid does not contain an Ensemble Axis: 'member' argument was ignored")
   gds$close()
 
-  # Ensemble axis, valid members 
-  nc_path <- testthat::test_path("testdata", "test_multidim.nc") 
+  # Ensemble axis, valid members  
+  nc_path <- file.path(temp_dir, "test_multidim.nc") 
   gds <- openDataset(nc_path)
   grid <- gds$findGridByShortName("tas")
   latLon <- getLatLonDomain(grid, lonLim = c(-10, 5), latLim = c(35, 45))

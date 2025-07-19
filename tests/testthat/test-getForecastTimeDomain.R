@@ -4,9 +4,10 @@
 
 test_that("getForecastTimeDomain computes time parameters for forecast datasets", {
   skip_if(Sys.which("ncgen") == "", "Skipping test 'getForecastTimeDomain': 'ncgen' is not available on system")
-
-  nc_path <- testthat::test_path("testdata", "test_runtime.nc") 
-  dic_path <- testthat::test_path("testdata", "test.dic") 
+ 
+  temp_dir <- getOption("loadeR.tempdir")
+  nc_path <- file.path(temp_dir, "test_runtime.nc") 
+  dic_path <- file.path(temp_dir, "test.dic")
   
   gds <- openDataset(nc_path)
   grid <- gds$findGridByShortName("tas")
@@ -42,8 +43,8 @@ test_that("getForecastTimeDomain computes time parameters for forecast datasets"
   
   gds$close()
 
-  # Sub-daily with daily aggregation
-  nc_path_subdaily <- testthat::test_path("testdata", "test_runtime_subdaily.nc") 
+  # Sub-daily with daily aggregation 
+  nc_path_subdaily <- file.path(temp_dir, "test_runtime_subdaily.nc")
   gds <- openDataset(nc_path_subdaily)
   grid <- gds$findGridByShortName("tas")
   
