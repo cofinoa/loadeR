@@ -1,0 +1,64 @@
+netcdf test_levelyx_subdaily {
+dimensions:
+    time = 8;
+    lev = 2;
+    y = 2;
+    x = 2;
+
+variables:
+    double time(time);
+        time:units = "hours since 1981-06-01 00:00:00";
+        time:long_name = "forecast time";
+        time:_CoordinateAxisType = "Time";
+
+    double lev(lev);
+        lev:units = "hPa";
+        lev:long_name = "pressure level";
+        lev:_CoordinateAxisType = "GeoZ";
+        lev:positive = "down";
+
+    float y(y);
+        y:units = "degrees_north";
+        y:long_name = "latitude";
+        y:_CoordinateAxisType = "Lat";
+
+    float x(x);
+        x:units = "degrees_east";
+        x:long_name = "longitude";
+        x:_CoordinateAxisType = "Lon";
+
+    double tas(time, lev, y, x);
+        tas:long_name = "air temperature";
+        tas:standard_name = "air_temperature";
+        tas:units = "K";
+        tas:missing_value = -9999.0;
+
+data:
+ time = 0, 6, 12, 18,   // 4 subdaily times on June 1
+        744, 750, 756, 762 ; // 4 subdaily times on July 1 (31*24 = 744)
+
+ lev = 1000, 850 ;
+ y = 41.0, 40.0 ;
+ x = -3.4, -3.5 ;
+
+ tas =
+  280, 281, 282, 283,
+  284, 285, 286, 287,
+  280, 281, 282, 283,
+  284, 285, 286, 287,
+
+  280, 281, 282, 283,
+  284, 285, 286, 287,
+  280, 281, 282, 283,
+  284, 285, 286, 287,
+
+  280, 281, 282, 283,
+  284, 285, 286, 287,
+  280, 281, 282, 283,
+  284, 285, 286, 287,
+
+  280, 281, 282, 283,
+  284, 285, 286, 287,
+  280, 281, 282, 283,
+  284, 285, 286, 287;
+} 

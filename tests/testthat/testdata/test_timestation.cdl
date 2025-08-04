@@ -1,0 +1,40 @@
+netcdf test_timestation {
+dimensions:
+    time = 2 ;
+    station_id = 2 ; 
+
+variables:
+    double time(time) ;
+        time:standard_name = "time" ;
+        time:units = "days since 2000-01-01 00:00:00" ;
+        time:calendar = "gregorian" ;
+        time:_CoordinateAxisType = "Time" ;
+
+    int station_id(station_id) ;
+        station_id:standard_name = "station_id" ;
+        station_id:units = "1" ;
+
+    double Lat(station_id) ;
+        Lat:standard_name = "latitude" ;
+        Lat:units = "degrees_north" ;
+        Lat:_CoordinateAxisType = "Lat" ;
+
+    double Lon(station_id) ;
+        Lon:standard_name = "longitude" ;
+        Lon:units = "degrees_east" ;
+        Lon:_CoordinateAxisType = "Lon" ;
+
+    double tas(time, station_id) ;
+        tas:long_name = "2m temperature" ;
+        tas:standard_name = "air_temperature" ;
+        tas:units = "K" ;
+
+data:
+ time = 0, 1 ;
+ station_id = 1, 2 ;
+ Lon = -3.5, -3.6 ;
+ Lat = 40.0, 41.0 ;
+ tas =
+   285.0, 286.0,
+   287.0, 288.0 ;
+}

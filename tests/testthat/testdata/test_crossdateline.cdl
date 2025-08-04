@@ -1,0 +1,22 @@
+netcdf test_crossdateline {
+dimensions:
+  y = 3;
+  x = 4;
+variables:
+  float lat(y);
+    lat:units = "degrees_north";
+    lat:_CoordinateAxisType = "Lat";
+  float lon(x);
+    lon:units = "degrees_east";
+    lon:_CoordinateAxisType = "Lon";
+  float tas(y, x);
+    tas:units = "K";
+    tas:coordinates = "lat lon";
+data:
+  lat = -10.0, 0.0, 10.0;
+  lon = 170.0, 175.0, 185.0, 190.0; // Crosses dateline because it goes from 175 -> 185
+  tas =
+    280, 281, 282, 283,
+    284, 285, 286, 287,
+    288, 289, 290, 291;
+}

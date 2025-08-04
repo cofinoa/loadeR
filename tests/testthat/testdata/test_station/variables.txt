@@ -1,0 +1,4 @@
+variable_id, name, unit, missing_code, type
+tmax, Daily_mean_temperature, degC, NaN, observation
+
+

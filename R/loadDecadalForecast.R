@@ -123,7 +123,7 @@ loadDecadalForecast <- function(dataset,
   # latLon <- getLatLonDomainForecast(grid, lonLim, latLim)      
   latLon <- getLatLonDomain(grid, lonLim, latLim)      
   runTimePars <- getRunTimeDomain.decadal(dataset, grid, members, season, years)
-  memberRangeList <- getMemberDomain(grid, dataset, members)
+  memberRangeList <- getMemberDomain(grid, members) #getMemberDomain(grid, dataset, members)
   foreTimePars <- getForecastTimeDomain(grid, dataset, dic, runTimePars, time, aggr.d, aggr.m)
   verticalPars <- getVerticalLevelPars(grid, level)
   cube <- makeSubset.decadal(grid, latLon, runTimePars, memberRangeList, foreTimePars, verticalPars)

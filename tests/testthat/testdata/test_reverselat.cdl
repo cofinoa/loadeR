@@ -1,0 +1,22 @@
+netcdf test_reverselat {
+dimensions:
+  y = 3;
+  x = 3;
+variables:
+  float lat(y);
+    lat:units = "degrees_north";
+    lat:_CoordinateAxisType = "Lat";
+  float lon(x);
+    lon:units = "degrees_east";
+    lon:_CoordinateAxisType = "Lon";
+  float tas(y, x);
+    tas:units = "K";
+    tas:coordinates = "lat lon";
+data:
+  lat = 2.0, 1.0, 0.0; // Latitude in descending order
+  lon = -3.6, -3.5, -3.4;
+  tas =
+    280, 281, 282,
+    283, 284, 285,
+    286, 287, 288;
+} 
