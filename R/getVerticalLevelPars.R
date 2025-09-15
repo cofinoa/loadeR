@@ -27,6 +27,8 @@ getVerticalLevelPars <- function(grid, level) {
         level <- levels
         if (gcs$getVerticalAxis()$findCoordElement(level) < 0) {
           levelInd <- gcs$getVerticalAxis()$findCoordElement(0)
+        } else {
+          levelInd <- gcs$getVerticalAxis()$findCoordElement(level)
         }
       } else {
         stop("Variable with vertical levels: '@level' following the variable name is required\nPossible values: ", paste(levels, collapse = ", "))
@@ -39,11 +41,7 @@ getVerticalLevelPars <- function(grid, level) {
       }
     }
     zRange <- .jnew("ucar/ma2/Range", levelInd, levelInd)
-  } else {
-    if (!is.null(level)) {
-      # warning("The variable selected is 2D: the '@level' specification was ignored")
-      level <- level
-    }
+  } else { 
     zRange <- .jnull()
   }
   return(list("level" = level, "zRange" = zRange))
