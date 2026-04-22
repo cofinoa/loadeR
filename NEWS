@@ -103,3 +103,7 @@ For earlier version changes, see the GitHub Releases [Tab](https://github.com/Sa
 ## v1.8.3 (07 Aug 2025) 
  * Minor function fixes and documentation updates
  * Add testing infrastructure
+
+## v1.8.4 (13 Oct 2025)
+ * NetCDF-Java 5.X compatibility fixes in `getVerticalLevelPars`
+ * Fix point subsetting in `makeSubset`
