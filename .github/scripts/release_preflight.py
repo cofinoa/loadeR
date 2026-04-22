@@ -114,11 +114,11 @@ CHECK_WORKING_TREE = "All tracked changes are committed"
 CHECK_RELEASE_TAG = (
     f"Draft release tag matches the latest commit on the {release_branch} branch"
 )
-CHECK_DESC_VERSION = "DESCRIPTION does not use a development version"
-CHECK_DESC_DATE = "DESCRIPTION date exists, is valid and matches today"
-CHECK_NEWS_ENTRY = "NEWS contains an entry with the release version and date"
+CHECK_DESC_VERSION = "`DESCRIPTION` does not use a development version"
+CHECK_DESC_DATE = "`DESCRIPTION` date exists, is valid and matches today"
+CHECK_NEWS_ENTRY = "`NEWS` contains an entry with the release version and date"
 CHECK_VERSION_ORDER = "Release version is greater than the previous release"
-CHECK_DEVEL_VERSION = "DESCRIPTION in devel is greater and uses a development version"
+CHECK_DEVEL_VERSION = "`DESCRIPTION` in devel is greater and uses a development version"
 
 SUMMARY_TEMPLATE = Template(
     """# 🚦 Release preflight for `${release_branch}`
