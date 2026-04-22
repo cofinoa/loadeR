@@ -312,13 +312,9 @@ ordered_checks.extend(remaining_checks)
 
 checklist_lines = []
 for status, label, message in ordered_checks:
-    if status == "OK":
-        marker = "[OK]"
-    elif status == "WARN":
-        marker = "[WARN]"
-    else:
-        marker = "[ERROR]"
-    checklist_lines.append(f"- {marker} {label}: {message}")
+    checklist_lines.append(f"- {label}")
+    checklist_lines.append(f"  Status: {status}")
+    checklist_lines.append(f"  Detail: {message}")
 
 warning_note = ""
 if warnings:
