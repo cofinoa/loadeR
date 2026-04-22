@@ -1,0 +1,36 @@
+name: Release Preflight
+
+on:
+  workflow_dispatch:
+    inputs:
+      release_branch:
+        description: Branch to validate as release candidate
+        required: true
+        default: main
+        type: string
+      expected_version:
+        description: Optional expected release version, e.g. 1.8.5
+        required: false
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  preflight:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout release branch
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.release_branch }}
+          fetch-depth: 0
+
+      - name: Run release preflight
+        env:
+          RELEASE_BRANCH: ${{ inputs.release_branch }}
+          EXPECTED_VERSION: ${{ inputs.expected_version }}
+          DEVEL_BRANCH: devel
+        shell: bash
+        run: python .github/scripts/release_preflight.py
