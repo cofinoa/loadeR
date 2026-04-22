@@ -15,7 +15,7 @@ Suggests:
 Type: Package
 Title: A climate4R package for data access <http://meteo.unican.es/climate4r>
 Version: 1.8.5
-Date: 2025-08-07
+Date: 2026-04-22
 Authors@R: c(person("Bedia", "Joaquín", email = "bediaj@unican.es", role = c("aut","cre"), comment = c(ORCID = "0000-0001-6219-4312", GitHub = "jbedia")),
              person("Antonio", "S.", "Cofiño", email = "antonio.cofino@unican.es", role = "aut", comment = c(ORCID = "0000-0001-7719-979X", GitHub = "cofinoa")),
              person("Matteo", "de Felice", email = "matteo.defelice@enea.it", role = "ctb"),

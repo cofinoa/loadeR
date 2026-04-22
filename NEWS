@@ -107,3 +107,7 @@ For earlier version changes, see the GitHub Releases [Tab](https://github.com/Sa
 ## v1.8.4 (13 Oct 2025)
  * NetCDF-Java 5.X compatibility fixes in `getVerticalLevelPars`
  * Fix point subsetting in `makeSubset`
+
+## v1.8.5 (22 Apr 2026)
+ * Refactor dataset opening for NetCDF-Java 5 compatibility
+ * Update `dataInventory.NetCDF`, `loadDecadalForecast` and `makeAggregatedDataset` to use `openDataset`
