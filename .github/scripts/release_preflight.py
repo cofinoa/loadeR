@@ -141,10 +141,10 @@ current_branch = run("git", "rev-parse", "--abbrev-ref", "HEAD").stdout.strip()
 if current_branch != release_branch:
     add_error(
         CHECK_RELEASE_BRANCH,
-        f"Checked out branch is '{current_branch}', expected '{release_branch}'.",
+        f"Checked out branch is `{current_branch}`, expected `{release_branch}`.",
     )
 else:
-    add_ok(CHECK_RELEASE_BRANCH, f"Checked out release branch '{release_branch}'.")
+    add_ok(CHECK_RELEASE_BRANCH, f"Checked out release branch `{release_branch}`.")
 
 status = run("git", "status", "--porcelain", "--untracked-files=no").stdout.strip()
 if status:
@@ -161,10 +161,10 @@ if not version:
 elif version.endswith(".9000"):
     add_error(
         CHECK_DESC_VERSION,
-        f"DESCRIPTION version '{version}' still looks like a development version.",
+        f"DESCRIPTION version `{version}` still looks like a development version.",
     )
 else:
-    add_ok(CHECK_DESC_VERSION, f"DESCRIPTION version is '{version}'.")
+    add_ok(CHECK_DESC_VERSION, f"DESCRIPTION version is `{version}`.")
 
 today = datetime.date.today().isoformat()
 if not date_value:
@@ -319,14 +319,12 @@ ordered_checks.extend(remaining_checks)
 checklist_lines = []
 for status, label, message in ordered_checks:
     if status == "OK":
-        status_badge = "🟢 `OK`"
+        status_badge = "🟢"
     elif status == "WARN":
-        status_badge = "🟡 `WARN`"
+        status_badge = "🟡"
     else:
-        status_badge = "🔴 `ERROR`"
-    checklist_lines.append(f"- {label}")
-    checklist_lines.append(f"  Status: {status_badge}")
-    checklist_lines.append(f"  Detail: {message}")
+        status_badge = "🔴"
+    checklist_lines.append(f"- {status_badge} **{label}**: {message}")
 
 warning_note = ""
 if warnings:
