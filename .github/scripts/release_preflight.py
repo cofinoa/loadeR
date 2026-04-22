@@ -117,16 +117,22 @@ CHECK_VERSION_ORDER = "Release version is greater than the previous release"
 CHECK_DEVEL_VERSION = "DESCRIPTION in devel is greater and uses a development version"
 
 SUMMARY_TEMPLATE = Template(
-    """# Release preflight for `${release_branch}`
+    """# 🚦 Release preflight for `${release_branch}`
 
 - Expected release branch: `${release_branch}`
 - Version in `DESCRIPTION`: `${version}`
 - Development branch checked: `${devel_branch}`
 
-## Checklist
+## ✅ Checklist
 ${checklist}
 
-Summary: ${error_count} error(s), ${warning_count} warning(s)
+## 🧾 Final summary
+
+| Result | Count |
+| --- | ---: |
+| 🔴 Errors | `${error_count}` |
+| 🟡 Warnings | `${warning_count}` |
+
 ${warning_note}"""
 )
 
@@ -169,14 +175,14 @@ else:
         if parsed_date.isoformat() != today:
             add_warn(
                 CHECK_DESC_DATE,
-                f"DESCRIPTION Date is '{parsed_date.isoformat()}', while today is '{today}'."
+                f"DESCRIPTION Date is `{parsed_date.isoformat()}`, while today is `{today}`."
             )
         else:
-            add_ok(CHECK_DESC_DATE, f"DESCRIPTION Date matches today ({today}).")
+            add_ok(CHECK_DESC_DATE, f"DESCRIPTION Date matches today (`{today}`).")
     except ValueError:
         add_error(
             CHECK_DESC_DATE,
-            f"DESCRIPTION Date '{date_value}' is not a valid ISO date.",
+            f"DESCRIPTION Date `{date_value}` is not a valid ISO date.",
         )
 
 news_text = Path("NEWS").read_text(encoding="utf-8")
@@ -189,15 +195,15 @@ if news_date is None:
 else:
     release_heading = f"## v{version} ({news_date})"
     if release_heading not in news_text:
-        add_error(CHECK_NEWS_ENTRY, f"NEWS does not contain heading '{release_heading}'.")
+        add_error(CHECK_NEWS_ENTRY, f"NEWS does not contain heading `{release_heading}`.")
     else:
-        add_ok(CHECK_NEWS_ENTRY, f"NEWS contains heading '{release_heading}'.")
+        add_ok(CHECK_NEWS_ENTRY, f"NEWS contains heading `{release_heading}`.")
 
 release_parts = parse_version(version)
 if release_parts is None:
     add_error(
         CHECK_VERSION_ORDER,
-        f"Could not parse DESCRIPTION version '{version}'.",
+        f"Could not parse DESCRIPTION version `{version}`.",
     )
 else:
     tag_output = run("git", "tag", "--list", "v*").stdout.splitlines()
@@ -222,12 +228,12 @@ else:
         if release_parts > previous_release:
             add_ok(
                 CHECK_VERSION_ORDER,
-                f"DESCRIPTION version '{version}' is greater than previous release v{format_version(previous_release)}."
+                f"DESCRIPTION version `{version}` is greater than previous release `v{format_version(previous_release)}`."
             )
         else:
             add_error(
                 CHECK_VERSION_ORDER,
-                f"DESCRIPTION version '{version}' is not greater than previous release v{format_version(previous_release)}."
+                f"DESCRIPTION version `{version}` is not greater than previous release `v{format_version(previous_release)}`."
             )
 
 remote_devel_check = run(
@@ -264,33 +270,33 @@ else:
             if devel_parts is None:
                 add_warn(
                     CHECK_DEVEL_VERSION,
-                    f"{devel_branch} version '{devel_version}' could not be parsed."
+                    f"{devel_branch} version `{devel_version}` could not be parsed."
                 )
             else:
                 if devel_version == version:
                     add_warn(
                         CHECK_DEVEL_VERSION,
-                        f"{devel_branch} version matches release version '{version}'. "
+                        f"{devel_branch} version matches release version `{version}`. "
                         "It should normally move ahead after a release."
                     )
                 elif devel_parts <= release_parts:
                     add_warn(
                         CHECK_DEVEL_VERSION,
-                        f"{devel_branch} version '{devel_version}' is not ahead of "
-                        f"release version '{version}'."
+                        f"{devel_branch} version `{devel_version}` is not ahead of "
+                        f"release version `{version}`."
                     )
                 else:
                     add_ok(
                         CHECK_DEVEL_VERSION,
-                        f"{devel_branch} version '{devel_version}' is ahead of the "
+                        f"{devel_branch} version `{devel_version}` is ahead of the "
                         f"release candidate."
                     )
 
                 if not devel_version.endswith(".9000"):
                     add_warn(
                         CHECK_DEVEL_VERSION,
-                        f"{devel_branch} version '{devel_version}' does not end in "
-                        "'.9000', so it may not be clearly marked as a development version."
+                        f"{devel_branch} version `{devel_version}` does not end in "
+                        "`.9000`, so it may not be clearly marked as a development version."
                     )
 
 check_order = [
@@ -312,13 +318,22 @@ ordered_checks.extend(remaining_checks)
 
 checklist_lines = []
 for status, label, message in ordered_checks:
+    if status == "OK":
+        status_badge = "🟢 `OK`"
+    elif status == "WARN":
+        status_badge = "🟡 `WARN`"
+    else:
+        status_badge = "🔴 `ERROR`"
     checklist_lines.append(f"- {label}")
-    checklist_lines.append(f"  Status: {status}")
+    checklist_lines.append(f"  Status: {status_badge}")
     checklist_lines.append(f"  Detail: {message}")
 
 warning_note = ""
 if warnings:
-    warning_note = "Warnings are advisory and should be reviewed before publishing."
+    warning_note = (
+        "> [!WARNING]\n"
+        "> Warnings are advisory, but they should be reviewed before publishing the release."
+    )
 
 summary = SUMMARY_TEMPLATE.substitute(
     release_branch=release_branch,
