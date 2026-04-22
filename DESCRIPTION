@@ -16,17 +16,18 @@ Type: Package
 Title: A climate4R package for data access <http://meteo.unican.es/climate4r>
 Version: 1.8.5
 Date: 2025-08-07
-Authors@R: c(person("Bedia", "Joaquín", email = "bediaj@unican.es", role = c("aut","cre"), comment = c(ORCID = "0000-0001-6219-4312")),
-             person("Antonio", "Cofiño", email = "antonio.cofino@unican.es", role = "ctb"),
+Authors@R: c(person("Bedia", "Joaquín", email = "bediaj@unican.es", role = c("aut","cre"), comment = c(ORCID = "0000-0001-6219-4312", GitHub = "jbedia")),
+             person("Antonio", "S.", "Cofiño", email = "antonio.cofino@unican.es", role = "aut", comment = c(ORCID = "0000-0001-7719-979X", GitHub = "cofinoa")),
              person("Matteo", "de Felice", email = "matteo.defelice@enea.it", role = "ctb"),
              person("Jesús", "Fernández", email = "fernandej@unican.es", role = "ctb"),
              person("José Manuel", "Gutiérrez", email = "gutierjm@unican.es", role = "ctb"),
+             person("María Isabel", "de la Osa Rocha", email = "delaosa@ifca.es", role = "aut", comment = c(GitHub = "mariadlor")),
              person("Sixto", "Herrera", email = "herreras@unican.es", role = "aut"),
-             person("Maialen", "Iturbide", email = "miturbide@ifca.unican.es", role = "aut", comment = c(ORCID = "0000-0002-5048-0941")),
+             person("Maialen", "Iturbide", email = "miturbide@ifca.unican.es", role = "aut", comment = c(ORCID = "0000-0002-5048-0941", GitHub = "miturbide")),
              person("Etienne", "Tourigny", email = "etienne.tourigny@bsc.es", role = "ctb"),
              person("Max", "Tuni", email = "max@predictia.es", role = "ctb"),
              person("Manuel", "Vega", email = "manuel.vega@unican.es", role = "ctb"),
-             person("Santander Meteorology Group", comment = "<http://www.meteo.unican.es/en>", role = "cph"))
+             person("Santander Meteorology Group", comment = c("Organization", GitHub = "SantanderMetGroup", URL = "http://www.meteo.unican.es/en"), role = "cph"))
 BugReports: https://github.com/SantanderMetGroup/loadeR/issues
 URL: https://github.com/SantanderMetGroup/loadeR/wiki
 Encoding: UTF-8
