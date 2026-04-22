@@ -19,6 +19,7 @@ contains these checks:
 
 - Release is being prepared from the main branch
 - All tracked changes are committed
+- Draft release tag matches the latest commit on the release branch
 - DESCRIPTION does not use a development version
 - DESCRIPTION date exists, is valid and matches today
 - NEWS contains an entry with the release version and date
@@ -110,6 +111,9 @@ def format_news_date(date_iso):
 
 CHECK_RELEASE_BRANCH = f"Release is being prepared from the {release_branch} branch"
 CHECK_WORKING_TREE = "All tracked changes are committed"
+CHECK_RELEASE_TAG = (
+    f"Draft release tag matches the latest commit on the {release_branch} branch"
+)
 CHECK_DESC_VERSION = "DESCRIPTION does not use a development version"
 CHECK_DESC_DATE = "DESCRIPTION date exists, is valid and matches today"
 CHECK_NEWS_ENTRY = "NEWS contains an entry with the release version and date"
@@ -165,6 +169,36 @@ elif version.endswith(".9000"):
     )
 else:
     add_ok(CHECK_DESC_VERSION, f"DESCRIPTION version is `{version}`.")
+
+tag_name = f"v{version}" if version else ""
+if not tag_name:
+    add_warn(
+        CHECK_RELEASE_TAG,
+        "Could not derive the draft release tag name from `DESCRIPTION` Version.",
+    )
+else:
+    tag_ref = run("git", "rev-parse", "-q", "--verify", f"refs/tags/{tag_name}", check=False)
+    if tag_ref.returncode != 0:
+        add_warn(
+            CHECK_RELEASE_TAG,
+            f"Tag `{tag_name}` has not been created yet, so this check cannot be completed.",
+        )
+    else:
+        tag_commit = run("git", "rev-list", "-n", "1", tag_name).stdout.strip()
+        branch_head = run("git", "rev-parse", "HEAD").stdout.strip()
+        if tag_commit == branch_head:
+            add_ok(
+                CHECK_RELEASE_TAG,
+                f"Tag `{tag_name}` matches the latest commit on `{release_branch}`.",
+            )
+        else:
+            short_tag_commit = run("git", "rev-parse", "--short", tag_commit).stdout.strip()
+            short_branch_head = run("git", "rev-parse", "--short", branch_head).stdout.strip()
+            add_error(
+                CHECK_RELEASE_TAG,
+                f"Tag `{tag_name}` points to `{short_tag_commit}`, "
+                f"but the latest commit on `{release_branch}` is `{short_branch_head}`.",
+            )
 
 today = datetime.date.today().isoformat()
 if not date_value:
@@ -302,6 +336,7 @@ else:
 check_order = [
     CHECK_RELEASE_BRANCH,
     CHECK_WORKING_TREE,
+    CHECK_RELEASE_TAG,
     CHECK_DESC_VERSION,
     CHECK_DESC_DATE,
     CHECK_NEWS_ENTRY,
